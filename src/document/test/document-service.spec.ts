@@ -2,21 +2,16 @@ import { Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { DateTimeService, FirebaseService, TriggerService } from '../../common';
-import {
-  AdapterService,
-  CatalogService,
-  AdapterTriggerService,
-} from '../services';
+import { DateTimeService, TriggerService } from '../../common';
+import { AdapterService, DocumentService } from '../services';
 import { IProductStampPartner } from '../interfaces';
-import { Action } from '../enums';
+import *  from '../enums';
 import { PayloadValidator } from '../../validators';
 
-describe('CatalogService', () => {
-  let service: CatalogService;
+describe('DocumentService', () => {
+  let service: DocumentService;
   let module: TestingModule;
   let configService: Partial<ConfigService>;
-  let firebaseService: Partial<FirebaseService>;
   let dateTimeService: Partial<DateTimeService>;
   let adapterService: Partial<AdapterService>;
   let triggerService: Partial<TriggerService>;
@@ -47,20 +42,7 @@ describe('CatalogService', () => {
         return;
       },
     };
-
-    adapterTriggerService = {
-      mountPayloadToGetBanners: () => {
-        return {} as any;
-      },
-      mountPayloadToGetFilters: () => {
-        return {} as any;
-      },
-
-      mountPayloadToGetProducts: () => {
-        return {} as any;
-      },
-    };
-
+    
     triggerService = {
       dispatchTrigger: async () => {
         return {} as IProductStampPartner[];
@@ -71,34 +53,11 @@ describe('CatalogService', () => {
     };
 
     adapterService = {
-      mountResponseProductClusters: () => {
-        return {} as any;
-      },
-      mountDataToGetProducts: () => {
-        return {} as any;
-      },
-      mountFacets: () => {
-        return {} as any;
-      },
-      mountFacetsString: () => {
-        return {} as any;
-      },
-      mountOrder: () => {
-        return {} as any;
-      },
-      mountPaginationToCallPartner: () => {
-        return {} as any;
-      },
+      mount: () => ''
     };
 
     configService = {
       get: () => '293',
-    };
-
-    firebaseService = {
-      publishMessageInTopic: async () => {
-        return;
-      },
     };
 
     module = await Test.createTestingModule({
@@ -107,7 +66,6 @@ describe('CatalogService', () => {
         { provide: Logger, useValue: logger },
         { provide: DateTimeService, useValue: dateTimeService },
         { provide: ConfigService, useValue: configService },
-        { provide: FirebaseService, useValue: firebaseService },
         { provide: AdapterService, useValue: adapterService },
         { provide: TriggerService, useValue: triggerService },
         { provide: AdapterTriggerService, useValue: adapterTriggerService },
@@ -115,27 +73,11 @@ describe('CatalogService', () => {
       ],
     }).compile();
 
-    service = module.get<CatalogService>(CatalogService);
+    service = module.get<DocumentService>(DocumentService);
   });
 
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
 
-  describe('getProducts', () => {
-    it('Should get product by cluster', async () => {
-      const product = await service.getProducts({
-        action: Action.GET_BY_CLUSTER,
-        dataGetProducts: {
-          category: 'xpto',
-          clusterId: 'xpto',
-          seller: 'xpto',
-        },
-        regionId: 'xpto',
-        correlationId: 'xpto',
-      });
-
-      expect(product).toEqual({});
-    });
-  });
 });

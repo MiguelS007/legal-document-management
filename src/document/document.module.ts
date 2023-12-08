@@ -3,11 +3,7 @@ import { Module, Logger } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 
 import { DocumentController } from './controllers/v1';
-import {
-  AdapterService,
-  DocumentService,
-  AdapterTriggerService,
-} from './services';
+import { AdapterService, DocumentService } from './services';
 import { DateTimeService, Helpers, TriggerService } from '../common';
 import { PayloadValidator } from '../validators';
 import { DocumentRepository } from './repositories';
@@ -27,7 +23,6 @@ import { DocumentRepository } from './repositories';
     DocumentService,
     DocumentRepository,
     AdapterService,
-    AdapterTriggerService,
     TriggerService,
     ConfigService,
     PayloadValidator,

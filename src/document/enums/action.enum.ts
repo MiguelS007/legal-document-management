@@ -1,5 +1,0 @@
-export enum Action {
-  GET_BY_CLUSTER = 'GET_BY_CLUSTER',
-  GET_BY_SELLER = 'GET_BY_SELLER',
-  GET_BY_CATEGORY = 'GET_BY_CATEGORY',
-}
