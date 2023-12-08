@@ -1,0 +1,17 @@
+version: "3.8"
+services:
+  app:
+    container_name: sample-microservice
+    build:
+      context: ./
+    ports:
+      - 8080:80
+    environment:  # sample of envs
+      - NODE_ENV='Development'
+      - NODE_PORT=8080
+    networks:
+      - sample-net         
+networks:
+  document-net:
+    name: sample-net
+    driver: bridge      

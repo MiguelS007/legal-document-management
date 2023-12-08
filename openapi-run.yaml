@@ -1,0 +1,176 @@
+openapi: 3.0.0
+paths:
+  /health:
+    get:
+      operationId: HealthCheckController_get
+      summary: Verify health application
+      parameters: []
+      responses:
+        '200':
+          description: The Health Check is successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+                  info:
+                    type: object
+                    example: &ref_0
+                      database: &ref_1
+                        status: up
+                    additionalProperties:
+                      type: object
+                      properties:
+                        status:
+                          type: string
+                      additionalProperties:
+                        type: string
+                    nullable: true
+                  error:
+                    type: object
+                    example: {}
+                    additionalProperties:
+                      type: object
+                      properties:
+                        status:
+                          type: string
+                      additionalProperties:
+                        type: string
+                    nullable: true
+                  details:
+                    type: object
+                    example: *ref_0
+                    additionalProperties:
+                      type: object
+                      properties:
+                        status:
+                          type: string
+                      additionalProperties:
+                        type: string
+        '503':
+          description: The Health Check is not successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  info:
+                    type: object
+                    example: *ref_0
+                    additionalProperties:
+                      type: object
+                      properties:
+                        status:
+                          type: string
+                      additionalProperties:
+                        type: string
+                    nullable: true
+                  error:
+                    type: object
+                    example:
+                      redis: &ref_2
+                        status: down
+                        message: Could not connect
+                    additionalProperties:
+                      type: object
+                      properties:
+                        status:
+                          type: string
+                      additionalProperties:
+                        type: string
+                    nullable: true
+                  details:
+                    type: object
+                    example:
+                      database: *ref_1
+                      redis: *ref_2
+                    additionalProperties:
+                      type: object
+                      properties:
+                        status:
+                          type: string
+                      additionalProperties:
+                        type: string
+      tags:
+        - health
+  /v1/document:
+    get:
+      operationId: DocumentController_getDocumentById
+      summary: Get document by id
+      parameters:
+        - name: documentId
+          required: true
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Document returned
+        '404':
+          description: Document not found
+      tags: &ref_3
+        - document
+  /v1/document/all:
+    get:
+      operationId: DocumentController_getAllDocuments
+      summary: Get all documents
+      parameters: []
+      responses:
+        '200':
+          description: Documents returned
+        '404':
+          description: Documents not found
+      tags: *ref_3
+  /v1/document/upload:
+    post:
+      operationId: DocumentController_createDocument
+      summary: Create document by id
+      parameters: []
+      responses:
+        '200':
+          description: Document created
+        '404':
+          description: Document not found
+      tags: *ref_3
+  /v1/document/update:
+    put:
+      operationId: DocumentController_updateDocument
+      summary: Update document by id
+      parameters: []
+      responses:
+        '200':
+          description: Document updated
+        '404':
+          description: Document not found
+      tags: *ref_3
+  /v1/document/delete:
+    delete:
+      operationId: DocumentController_deleteDocument
+      summary: Delete document by id
+      parameters: []
+      responses:
+        '200':
+          description: Document deleted
+        '404':
+          description: Document not found
+      tags: *ref_3
+info:
+  title: Legal Document Management Api
+  description: Document Management APIs
+  version: '1.0'
+  contact: {}
+tags: []
+servers: []
+components:
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+  schemas: {}
